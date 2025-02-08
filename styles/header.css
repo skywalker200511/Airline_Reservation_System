@@ -1,0 +1,99 @@
+.header{
+    position: fixed;
+    height: 80px;
+    display: flex;
+    top: 0;
+    right: 0;
+    left: 0;
+    background-color: rgba(255, 255, 255, 0.2);
+    align-items: center;
+    justify-content: space-between;
+    border-bottom-width: 2px;
+    border-bottom-color: rgb(243, 243, 243);
+    border-bottom-style: solid;
+}
+.home_button{
+    height: 100%;
+    width: 80px;
+    font-size: 15px;
+    font-weight: bold;
+    background-color: rgba(255, 255, 255, 0.00); 
+    border: none;   
+    transition: background-color 0.8 ease;
+}
+.home_button:hover{
+    background-color: rgba(255, 255, 255, 0.2);
+}
+.about_button{
+    position: relative;
+    height: 100%;
+    width: 80px;
+    font-size: 15px;
+    font-weight: bold;
+    background-color: rgba(255, 255, 255, 0.00); 
+    border: none;
+    
+}
+.about_button:hover{
+    background-color: rgba(255, 255, 255, 0.2);
+}
+.contact_button{
+    height: 100%;
+    width: 80px;
+    font-size: 15px;
+    font-weight: bold;
+    background-color: rgba(255, 255, 255, 0.00); 
+    border: none;
+    margin-right: 40px;
+    
+}
+.contact_button:hover{
+    background-color: rgba(255, 255, 255, 0.2);
+}
+.logo{
+    height: 60px;
+    border-radius: 50px;
+    margin-left: 40px;
+
+}
+.name{
+    margin-right: 640px;
+    font-size: 25px;
+    color: rgb(5, 5, 5);
+    font-weight: bold;
+}
+.buttons{
+    position: fixed;
+    height: 80px;
+    display: flex;
+    top: 0;
+    right: 0;
+    left: 0;
+    background-color: rgba(255, 255, 255, 0.0);
+    align-items: center;
+    justify-content: space-between;
+    justify-content: end;
+    gap: 30px;
+    border-bottom-width: 2px;
+    border-bottom-color: rgb(243, 243, 243);
+    border-bottom-style: solid;
+   
+}
+a{
+    height: 100%;
+    width: 80px;
+    background-color: rgba(255, 255, 255, 0.00); 
+    margin-right: 30px;
+}
+.login_button{
+    height: 100%;
+    width: 80px;
+    font-size: 15px;
+    font-weight: bold;
+    background-color: rgba(255, 255, 255, 0.00); 
+    border: none;   
+    transition: background-color 0.8 ease;
+}
+.login_button:hover{
+    background-color: rgba(255, 255, 255, 0.2);
+}
