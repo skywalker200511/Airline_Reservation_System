@@ -1,0 +1,95 @@
+body {
+    font-family: Arial, sans-serif;
+    background: url('image.png') no-repeat center center/cover;
+    margin: 0;
+    padding: 0;
+}
+.container_check_in {
+    width: 80%;
+    margin: 50px auto;
+    text-align: center;
+}
+.header {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+}
+.booking-box {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+    margin-top: 20px;
+}
+.tab-menu .tab a {
+    text-decoration: none; 
+    color: inherit;
+    padding: 10px;
+    border-bottom: 4px solid transparent;
+}
+
+.tab-menu .active {
+    color: #ff5722; 
+    border-bottom: 4px solid #ff5722; 
+}
+.tab-menu {
+    display: flex;
+    text-decoration: none;
+    margin-bottom: 10px;
+    color: inherit; 
+    justify-content: space-around;
+    padding: 10px;
+    background: white;
+    border-bottom: 2px solid #ff5722;
+    justify-content: center;
+    border-bottom: 2px solid rgb(76, 76, 255);
+    gap: 20px; 
+}
+.tab-menu div {
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    padding: 10px 20px; 
+    text-align: center;
+    white-space: nowrap;
+    border-radius: 5px;
+}
+.tab-menu .active {
+    color: #ff5722;
+    border-bottom: 2px solid #ff5722;
+}
+.highlight {
+    color: #ff5722;
+    font-weight: bold;
+    border-bottom: 4px solid #ff5722;
+}
+.form-group {
+    margin: 15px 0;
+    text-align: left;
+}
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+.search-btn {
+    width: 100%;
+    background: #ff5722;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+.search-btn:hover {
+    background: #e64a19;
+}
