@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Flight Tickets Online</title>
+    <link rel="stylesheet" href="styles/booking_style.css">
+    <link rel="stylesheet" href="styles/register_style.css">
+    <script>
+        function toggleReturnDate() {
+            var tripType = document.getElementById("tripType").value;
+            var returnDate = document.getElementById("returnDate");
+            if (tripType === "Round Trip") {
+                returnDate.style.display = "block";
+            } else {
+                returnDate.style.display = "none";
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <div class="header">
+        <img class="logo" src="images/air_logo.png">
+        <p class="name">SAIRAJ AIRWAYS</p>
+        <div class="buttons">
+            <a href="login_page.html"><button class="login_button">Login</button></a>
+            <a href="index.html"><button class="home_button">Home</button></a>
+            <a href="about_page.html"><button class="about_button">About</button></a>
+            <a href="contact_page.html"><button class="contact_button">Contact</button></a>
+        </div>
+    </div>
+    <img class="bg_reg" src="images/booking_bg.jpeg" alt=""> 
+    <div class="container_book">
+        <h2 style="text-align: center;">Book Flight Tickets Online</h2>
+        <div class="tabs">
+            <div class="tab active">Book a Flight</div>
+            <div class="tab">Check-in</div>
+        </div>
+        <form>
+            <div class="form-group">
+                <label>Trip Type</label>
+                <select id="tripType" onchange="toggleReturnDate()">
+                    <option>One Way</option>
+                    <option>Round Trip</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>From</label>
+                <select>
+                    <option>Select departure city</option>
+                    <option>New York</option>
+                    <option>Los Angeles</option>
+                    <option>Chicago</option>
+                    <option>Houston</option>
+                    <option>Miami</option>
+                    <option>Dallas</option>
+                    <option>San Francisco</option>
+                    <option>Seattle</option>
+                    <option>Boston</option>
+                    <option>Atlanta</option>
+                    <option>London</option>
+                    <option>Paris</option>
+                    <option>Tokyo</option>
+                    <option>Dubai</option>
+                    <option>Singapore</option>
+                    <option>Toronto</option>
+                    <option>Sydney</option>
+                    <option>Berlin</option>
+                    <option>Madrid</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>To</label>
+                <select>
+                    <option>Select destination city</option>
+                    <option>New York</option>
+                    <option>Los Angeles</option>
+                    <option>Chicago</option>
+                    <option>Houston</option>
+                    <option>Miami</option>
+                    <option>Dallas</option>
+                    <option>San Francisco</option>
+                    <option>Seattle</option>
+                    <option>Boston</option>
+                    <option>Atlanta</option>
+                    <option>London</option>
+                    <option>Paris</option>
+                    <option>Tokyo</option>
+                    <option>Dubai</option>
+                    <option>Singapore</option>
+                    <option>Toronto</option>
+                    <option>Sydney</option>
+                    <option>Berlin</option>
+                    <option>Madrid</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Travel Date</label>
+                <input type="date">
+            </div>
+            <div class="form-group" id="returnDate" style="display: none;">
+                <label>Return Date</label>
+                <input type="date">
+            </div>
+            <div class="form-group">
+                <label>Passengers</label>
+                <select>
+                    <option>1 Adult</option>
+                    <option>2 Adults</option>
+                    <option>3 Adults</option>
+                    <option>4 Adults</option>
+                </select>
+            </div>
+            <button class="search-btn">Search Flights</button>
+        </form>
+    </div>
+</body>
+</html>

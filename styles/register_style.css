@@ -1,0 +1,159 @@
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .container {
+            color: white;
+            border-color: gray;
+            border-style: solid;
+            border-width: 1px;
+            background: rgb(255, 255, 255,0.6);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .create_acc_button{
+            width: 100%;
+            padding: 10px;
+            background: rgb(76, 76, 255);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: darkblue;
+        }
+        .signin-link {
+            margin-top: 10px;
+            display: block;
+            width: 200px;
+            margin-left: 30px;
+        }
+        .bg_reg{
+            position: fixed;
+            height: 100%;
+            width: 100%;
+            margin-top: -10px;
+            margin-bottom: -10px;
+            z-index: -1;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .header{
+            z-index: 1;
+            position: fixed;
+            height: 80px;
+            display: flex;
+            top: 0;
+            right: 0;
+            left: 0;
+            background-color: rgba(255, 255, 255, 0.2);
+            align-items: center;
+            justify-content: space-between;
+            border-bottom-width: 2px;
+            border-bottom-color: rgb(243, 243, 243);
+            border-bottom-style: solid;
+        }
+        .home_button{
+            height: 100%;
+            width: 80px;
+            font-size: 15px;
+            font-weight: bold;
+            background-color: rgba(255, 255, 255, 0.00); 
+            border: none;   
+            transition: background-color 0.8 ease;
+        }
+        .home_button:hover{
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .about_button{
+            position: relative;
+            height: 100%;
+            width: 80px;
+            font-size: 15px;
+            font-weight: bold;
+            background-color: rgba(255, 255, 255, 0.00); 
+            border: none;
+            
+        }
+        .about_button:hover{
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .contact_button{
+            height: 100%;
+            width: 80px;
+            font-size: 15px;
+            font-weight: bold;
+            background-color: rgba(255, 255, 255, 0.00); 
+            border: none;
+            margin-right: 40px;
+            
+        }
+        .contact_button:hover{
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .logo{
+            height: 60px;
+            border-radius: 50px;
+            margin-left: 40px;
+        
+        }
+        .name{
+            margin-right: 640px;
+            font-size: 25px;
+            color: rgb(5, 5, 5);
+            font-weight: bold;
+        }
+        .buttons{
+            position: fixed;
+            height: 80px;
+            display: flex;
+            top: 0;
+            right: 0;
+            left: 0;
+            background-color: rgba(255, 255, 255, 0.0);
+            align-items: center;
+            justify-content: space-between;
+            justify-content: end;
+            gap: 30px;
+            border-bottom-width: 2px;
+            border-bottom-color: rgb(243, 243, 243);
+            border-bottom-style: solid;
+           
+        }
+        a{
+            height: 100%;
+            width: 80px;
+            background-color: rgba(255, 255, 255, 0.00); 
+            margin-right: 30px;
+        }
+        .login_button{
+            height: 100%;
+            width: 80px;
+            font-size: 15px;
+            font-weight: bold;
+            background-color: rgba(255, 255, 255, 0.00); 
+            border: none;   
+            transition: background-color 0.8 ease;
+        }
+        .login_button:hover{
+            background-color: rgba(255, 255, 255, 0.2);
+        }

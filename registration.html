@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Airline Account Sign Up</title>
+<link rel="stylesheet" href="styles/register_style.css">
+    
+</head>
+<body>
+    <body>
+        <img class="bg_reg" src="images/bg_register.png" alt="">  
+
+        <div class="header">
+            <img class="logo" src="images/air_logo.png">
+            <p class="name">SAIRAJ AIRWAYS</p>
+            <div class="buttons">
+                <a href="login_page.html"><button class="login_button">Login</button></a>
+                <a href="index.html"><button class="home_button">Home</button></a>
+                <a href="about_page.html"><button class="about_button">About</button></a>
+                <a href="contact_page.html"><button class="contact_button">Contact</button></a>
+            </div>
+        </div>
+    
+       
+        <div class="container">
+            <h2>Create Airline Account</h2>
+            <form id="signupForm">
+                <input type="text" id="name" placeholder="Full Name" required>
+                <input type="email" id="email" placeholder="Email" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <button class="create_acc_button" type="submit" id="signup">Create Account</button>
+            </form>
+            <a href="login_page.html" class="signin-link">Already have an account? Sign in</a>
+        </div>
+    </body>
+    
+
+
+    <script>
+        document.getElementById("signupForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            alert("Account created successfully!");
+        });
+    </script>
+</body>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
+    import { getDatabase,set,ref } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-database.js";
+    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBbSwupIxfEKLaMtQbxMvbwnYySRGR10eg",
+      authDomain: "air-line-65c8c.firebaseapp.com",
+      databaseURL: "https://air-line-65c8c-default-rtdb.firebaseio.com",
+      projectId: "air-line-65c8c",
+      storageBucket: "air-line-65c8c.firebasestorage.app",
+      messagingSenderId: "1061852998034",
+      appId: "1:1061852998034:web:c9778a9671f19d437c394b"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+    const auth = getAuth();
+    signup.addEventListener('click',(e)=>{
+
+        var email = document.getElementById('email').value;
+        var password = document.getElementById('password').value;
+        var username = document.getElementById('name').value;
+
+        createUserWithEmailAndPassword(auth, email, password)
+          .then((userCredential) => {
+    // Signed up 
+    const user = userCredential.user;
+
+    set(ref(database,'users/' + user.uid),{
+        username: username,
+        email: email
+    })
+    alert('user created');
+    // ...
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // ..
+    alert(errorMessage);
+  });
+    })
+  </script>
+</html>
