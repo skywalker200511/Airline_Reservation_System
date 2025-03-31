@@ -78,7 +78,6 @@
         }
     </style>
 </head>
-
 <body>
     <img class="pers_info_bg" src="images/homepage_background.jpg" alt="">
     <div class="header">
@@ -118,18 +117,10 @@
     </div>
 
     <div style="margin-top: 20px;">
-        <button class="booking-button" onclick="storeData()">Book Ticket</button>
+        <button class="booking-button" onclick="storeData(event)">Proceed</button>
     </div>
 
-    <!-- Load Supabase SDK -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // Initialize Supabase
-        const supabaseUrl = "https://psvfacqymwdovnjnhowo.supabase.co";
-        const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBzdmZhY3F5bXdkb3Zuam5ob3dvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI3MzI1NDYsImV4cCI6MjA1ODMwODU0Nn0.Q2s9rR30QQUkdZ02YM2HJyGWfB3I9omST4n2gEUqLic";
-        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-
-        // Function to add more passengers
         function addPassenger() {
             let container = document.getElementById("passenger-info");
             let div = document.createElement("div");
@@ -142,55 +133,44 @@
             container.appendChild(div);
         }
 
-        // Function to show/hide special services
         function toggleExtraServices(checkbox) {
             document.getElementById("extra-services-btn").style.display = checkbox.checked ? "block" : "none";
         }
 
-        // Function to store data in Supabase
-        async function storeData() {
-    const phone = document.getElementById("contact").value;
-    const email = document.getElementById("email").value;
-    const flightId = localStorage.getItem("selectedFlightId"); // Retrieve flight ID
+        function storeData(event) {
+            event.preventDefault();
+            const phone = document.getElementById("contact").value;
+            const email = document.getElementById("email").value;
+            const flightId = localStorage.getItem("selectedFlightId");
 
-    if (!flightId) {
-        alert("No flight selected! Please go back and choose a flight.");
-        return;
-    }
+            if (!flightId) {
+                alert("No flight selected! Please go back and choose a flight.");
+                return;
+            }
 
-    if (!phone || !email) {
-        alert("Please enter contact details.");
-        return;
-    }
+            if (!phone || !email) {
+                alert("Please enter contact details.");
+                return;
+            }
 
-    let passengers = [];
-    document.querySelectorAll(".passenger").forEach((passenger) => {
-        let name = passenger.querySelector("input[type='text']").value;
-        let age = passenger.querySelector("input[type='number']").value;
-        let dob = passenger.querySelector("input[type='date']").value;
+            let passengers = [];
+            document.querySelectorAll(".passenger").forEach((passenger) => {
+                let name = passenger.querySelector(".name").value;
+                let age = passenger.querySelector(".age").value;
+                let dob = passenger.querySelector(".dob").value;
 
-        if (name && age && dob) {
-            passengers.push({ name, age: parseInt(age), dob, phone, email, flight_id: flightId });
+                if (name && age && dob) {
+                    passengers.push({ name, age: parseInt(age), dob, phone, email, flight_id: flightId });
+                }
+            });
+
+            if (passengers.length === 0) {
+                alert("Please enter at least one passenger.");
+                return;
+            }
+
+            window.location.href = "baggage.html";
         }
-    });
-
-    if (passengers.length === 0) {
-        alert("Please enter at least one passenger.");
-        return;
-    }
-
-    const { error } = await supabase.from("bookings").insert(passengers);
-
-    if (error) {
-        console.error("Error inserting data:", error.message);
-        alert("Booking failed. Please try again.");
-    } else {
-        alert("Booking successful!");
-        localStorage.removeItem("selectedFlightId"); // Clear after booking
-        location.href = "bookings.html";
-    }
-}
-
     </script>
 </body>
 </html>

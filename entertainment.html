@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>In-Flight Services Booking</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 400px;
+            background: white;
+            padding: 20px;
+            margin: auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+        }
+        label {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        button {
+            padding: 10px;
+            margin-top: 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #confirmationMessage {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #28a745;
+        }
+    </style>
+    <script>
+        function togglePrimeFacilities() {
+            document.getElementById('prime-facilities-menu').classList.toggle('hidden');
+        }
+    </script>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <div class="header w-full fixed top-0 left-0 bg-white shadow-md flex justify-between items-center p-4">
+        <img class="logo h-12" src="images/air_logo.png" alt="Airline Logo">
+        <p class="name text-xl font-bold">SAIRAJ AIRWAYS</p>
+        <div class="buttons flex space-x-4">
+            <a href="login_page.html"><button class="login_button bg-blue-500 text-white px-4 py-2 rounded">Login</button></a>
+            <a href="index.html"><button class="home_button bg-blue-500 text-white px-4 py-2 rounded">Home</button></a>
+            <a href="about_page.html"><button class="about_button bg-blue-500 text-white px-4 py-2 rounded">About</button></a>
+            <button class="prime_button bg-blue-500 text-white px-4 py-2 rounded" onclick="togglePrimeFacilities()">Prime Facilities</button>
+        </div>
+    </div>
+    
+    <!-- Prime Facilities Dropdown -->
+    <div id="prime-facilities-menu" class="hidden absolute top-16 right-4 bg-white shadow-md rounded-lg p-4 space-y-2">
+        <a href="lounge.html"><button class="block w-full bg-blue-500 text-white px-4 py-2 rounded">VIP Lounge</button></a>
+        <a href="entertainment.html"><button class="block w-full bg-blue-500 text-white px-4 py-2 rounded">Entertainment Package</button></a>
+        <a href="baggage.html"><button class="block w-full bg-blue-500 text-white px-4 py-2 rounded">Baggage Fee Estimator</button></a>
+        <a href="fare.html"><button class="block w-full bg-blue-500 text-white px-4 py-2 rounded">Fare Prediction</button></a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mt-20">
+        <h1>Pre-Book In-Flight Services</h1>
+        <form id="serviceForm">
+            <label>
+                <input type="checkbox" name="wifi"> WiFi Access
+            </label>
+            <label>
+                <input type="checkbox" name="meal"> Pre-Ordered Meal
+            </label>
+            <label>
+                <input type="checkbox" name="entertainment"> Premium Entertainment Package
+            </label>
+            <button type="submit">Confirm Booking</button>
+        </form>
+        <div id="confirmationMessage"></div>
+    </div>
+
+    <script>
+        document.getElementById("serviceForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            let services = [];
+            document.querySelectorAll('input[type="checkbox"]:checked').forEach(checkbox => {
+                services.push(checkbox.nextSibling.textContent.trim());
+            });
+            if (services.length) {
+                let message = "You have successfully booked: " + services.join(", ");
+                document.getElementById("confirmationMessage").innerText = message;
+                alert(message); // Popup notification
+            } else {
+                document.getElementById("confirmationMessage").innerText = "No services selected.";
+                alert("No services selected."); // Popup notification
+            }
+        });
+    </script>
+</body>
+</html>

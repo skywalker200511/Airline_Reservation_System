@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special Assistance Reservation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-image: url('images/airline_bg.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+    <script>
+        function togglePrimeFacilities() {
+            document.getElementById('prime-facilities-menu').classList.toggle('hidden');
+        }
+    </script>
+</head>
+<body class="bg-gray-100 flex justify-center items-center min-h-screen p-4">
+    
+    <!-- Navigation Bar -->
+    <div class="header w-full fixed top-0 left-0 bg-white shadow-md flex justify-between items-center p-4">
+        <img class="logo h-12" src="images/air_logo.png" alt="Airline Logo">
+        <p class="name text-xl font-bold">SAIRAJ AIRWAYS</p>
+        <div class="buttons flex space-x-4">
+            <a href="login_page.html"><button class="login_button bg-blue-500 text-white px-4 py-2 rounded">Login</button></a>
+            <a href="index.html"><button class="home_button bg-blue-500 text-white px-4 py-2 rounded">Home</button></a>
+            <a href="about_page.html"><button class="about_button bg-blue-500 text-white px-4 py-2 rounded">About</button></a>
+            <button class="prime_button bg-blue-500 text-white px-4 py-2 rounded" onclick="togglePrimeFacilities()">Prime Facilities</button>
+        </div>
+    </div>
+    
+    <!-- Prime Facilities Dropdown -->
+    <div id="prime-facilities-menu" class="hidden absolute top-16 right-4 bg-white shadow-md rounded-lg p-4 space-y-2">
+        <a href="lounge.html"><button class="block w-full bg-blue-500 text-white px-4 py-2 rounded">VIP Lounge</button></a>
+        <a href="entertainment.html"><button class="block w-full bg-blue-500 text-white px-4 py-2 rounded">Entertainment Package</button></a>
+        <a href="baggage.html"><button class="block w-full bg-blue-500 text-white px-4 py-2 rounded">Baggage Fee Estimator</button></a>
+        <a href="fare.html"><button class="block w-full bg-blue-500 text-white px-4 py-2 rounded">Fare Prediction</button></a>
+    </div>
+    
+    <div class="bg-white shadow-lg rounded-lg p-6 max-w-lg w-full mt-20">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">✈️ Special Assistance Reservation</h2>
+        
+        <form class="space-y-4">
+            <!-- Passenger Name -->
+            <div>
+                <label class="block font-medium text-gray-700">Full Name</label>
+                <input type="text" placeholder="Enter your full name" required
+                    class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            
+            <!-- Email -->
+            <div>
+                <label class="block font-medium text-gray-700">Email Address</label>
+                <input type="email" placeholder="Enter your email" required
+                    class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            
+            <!-- Contact Number -->
+            <div>
+                <label class="block font-medium text-gray-700">Contact Number</label>
+                <input type="tel" placeholder="Enter your contact number" required
+                    class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            
+            <!-- Select Disability Type -->
+            <div>
+                <label class="block font-medium text-gray-700">Type of Disability</label>
+                <select class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="">-- Select --</option>
+                    <option value="visual">Visual Impairment</option>
+                    <option value="hearing">Hearing Impairment</option>
+                    <option value="mobility">Mobility Impairment</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            
+            <!-- Wheelchair Assistance -->
+            <div>
+                <label class="block font-medium text-gray-700">Wheelchair Assistance</label>
+                <div class="flex flex-wrap gap-3">
+                    <label class="flex items-center space-x-2">
+                        <input type="checkbox" class="form-checkbox text-blue-500" value="departure">
+                        <span>Departure</span>
+                    </label>
+                    <label class="flex items-center space-x-2">
+                        <input type="checkbox" class="form-checkbox text-blue-500" value="arrival">
+                        <span>Arrival</span>
+                    </label>
+                    <label class="flex items-center space-x-2">
+                        <input type="checkbox" class="form-checkbox text-blue-500" value="layover">
+                        <span>Layover</span>
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Priority Boarding -->
+            <div>
+                <label class="block font-medium text-gray-700">Priority Boarding</label>
+                <select class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="">-- Select --</option>
+                    <option value="yes">Yes, I need early boarding</option>
+                    <option value="no">No, I'll board normally</option>
+                </select>
+            </div>
+            
+            <!-- Emergency Contact -->
+            <div>
+                <label class="block font-medium text-gray-700">Emergency Contact Name</label>
+                <input type="text" placeholder="Enter emergency contact name" required
+                    class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            
+            <div>
+                <label class="block font-medium text-gray-700">Emergency Contact Number</label>
+                <input type="tel" placeholder="Enter emergency contact number" required
+                    class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            
+            <!-- Submit Button -->
+            <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-800 transition">
+                Submit Request
+            </button>
+        </form>
+    </div>
+    
+</body>
+</html>

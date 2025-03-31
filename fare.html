@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Fare Prediction</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 500px;
+            background: white;
+            padding: 20px;
+            margin: auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        .search-box input, .search-box select {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .search-box button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            
+        }
+        .search-box button:hover {
+            background-color: #0056b3;
+        }
+        .loading {
+            display: none;
+            font-size: 14px;
+            color: #007bff;
+            margin-top: 10px;
+        }
+        .prediction-box {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+        }
+        .reason-box {
+            margin-top: 10px;
+            font-weight: bold;
+            color: #007bff;
+            display: none;
+        }
+        .header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                background-color: #f1f1f1;
+                padding: 10px;
+            }
+            .buttons {
+                display: flex;
+                gap: 10px;
+            }
+            button {
+                padding: 10px;
+                border: none;
+                cursor: pointer;
+                background-color: #007bff;
+                color: white;
+                border-radius: 5px;
+            }
+            .dropdown {
+                position: relative;
+                display: inline-block;
+            }
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #f9f9f9;
+                min-width: 150px;
+                box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+                z-index: 1;
+            }
+            .dropdown-content a button {
+                width: 100%;
+                text-align: left;
+                background-color: #f1f1f1;
+                color: black;
+                border: none;
+            }
+            .dropdown:hover .dropdown-content {
+                display: block;
+            } .header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                background-color: #f1f1f1;
+                padding: 10px;
+            }
+            .buttons {
+                display: flex;
+                gap: 10px;
+            }
+            button {
+                padding: 10px;
+                border: none;
+                cursor: pointer;
+                background-color: #007bff;
+                color: white;
+                border-radius: 5px;
+            }
+            .dropdown {
+                position: relative;
+                display: inline-block;
+            }
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #f9f9f9;
+                min-width: 150px;
+                box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+                z-index: 1;
+            }
+            .dropdown-content a button {
+                width: 100%;
+                text-align: left;
+                background-color: #f1f1f1;
+                color: black;
+                border: none;
+            }
+            .dropdown:hover .dropdown-content {
+                display: block;
+            }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img class="logo" src="images/air_logo.png">
+        <p class="name">SAIRAJ AIRWAYS</p>
+        <div class="buttons">
+            <a href="index.html"><button class="home_button">Home</button></a>
+            <a href="about_page.html"><button class="about_button">About</button></a>
+            <div class="dropdown">
+                <button class="prime_facilities_button">Prime Facilities</button>
+                <div class="dropdown-content">
+                    <a href="lounge.html"><button class="facility_button">vip lounge</button></a>
+                    <a href="entertainment.html"><button class="facility_button">entertainment Package</button></a>
+                    <a href="entertainment.html"><button class="facility_button">Baggage Fee Estimator</button></a>
+                    <a href="fare.html"><button class="facility_button">Fare Prediction</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <h1>AI-Powered Fare Prediction</h1>
+        <div class="search-box">
+            <select id="departure">
+                <option value="">Select Departure City</option>
+                <option value="New York">New York</option>
+                <option value="Los Angeles">Los Angeles</option>
+                <option value="Chicago">Chicago</option>
+                <option value="London">London</option>
+            </select>
+            <select id="destination">
+                <option value="">Select Destination City</option>
+                <option value="Paris">Paris</option>
+                <option value="Tokyo">Tokyo</option>
+                <option value="Dubai">Dubai</option>
+                <option value="Sydney">Sydney</option>
+            </select>
+            <button onclick="predictFare()">Check Fare Prediction</button>
+            <p class="loading" id="loading">Fetching fare trends...</p>
+        </div>
+        <div id="prediction-result" class="prediction-box">
+            <h2>Fare Trend</h2>
+            <p id="fare-trend">Select cities to view predictions.</p>
+            <h3>Best Time to Book: <span id="best-time">-</span></h3>
+            <button onclick="showReason()">Check Reason</button>
+            <p id="reason-text" class="reason-box"></p>
+        </div>
+    </div>
+    
+    <script>
+        let selectedReason = "";
+        
+        function predictFare() {
+            let departure = document.getElementById("departure").value;
+            let destination = document.getElementById("destination").value;
+            let loadingText = document.getElementById("loading");
+            
+            if (departure && destination) {
+                loadingText.style.display = "block";
+                setTimeout(() => {
+                    let randomTrend = ["Prices expected to rise", "Stable fares", "Best time to book now!"];
+                    let bestTime = ["Now", "In 3 days", "Next week", "In 2 weeks"];
+                    let reasons = {
+                        "Now": "Limited seats available at the lowest price. Book now to save money!",
+                        "In 3 days": "Mid-week discounts are expected. Waiting might get you a better deal!",
+                        "Next week": "Seasonal demand might cause prices to rise. Book now before it’s too late!",
+                        "In 2 weeks": "Upcoming promotional offers may reduce fares. Stay alert for discounts!"
+                    };
+                    
+                    let selectedTime = bestTime[Math.floor(Math.random() * bestTime.length)];
+                    selectedReason = reasons[selectedTime];
+                    document.getElementById("fare-trend").innerText = randomTrend[Math.floor(Math.random() * randomTrend.length)];
+                    document.getElementById("best-time").innerText = selectedTime;
+                    document.getElementById("reason-text").innerText = "Reason: " + selectedReason;
+                    document.getElementById("reason-text").style.display = "none";
+                    
+                    loadingText.style.display = "none";
+                }, 2000);
+            } else {
+                alert("Please select both departure and destination cities.");
+            }
+        }
+        
+        function showReason() {
+            if (selectedReason) {
+                document.getElementById("reason-text").style.display = "block";
+            } else {
+                alert("Please check the fare prediction first.");
+            }
+        }
+    </script>
+</body>
+</html>

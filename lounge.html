@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Airport Lounge Access</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        function togglePrimeFacilities() {
+            document.getElementById('prime-facilities-menu').classList.toggle('hidden');
+        }
+    </script>
+    </head>
+    <body class="bg-gray-100 flex justify-center items-center min-h-screen p-4">
+    
+    <!-- Navigation Bar -->
+    <div class="header w-full fixed top-0 left-0 bg-white shadow-md flex justify-between items-center p-4">
+        <img class="logo h-12" src="images/air_logo.png" alt="Airline Logo">
+        <p class="name text-xl font-bold">SAIRAJ AIRWAYS</p>
+        <div class="buttons flex space-x-4">
+            <a href="login_page.html"><button class="login_button bg-blue-500 text-white px-4 py-2 rounded">Login</button></a>
+            <a href="index.html"><button class="home_button bg-blue-500 text-white px-4 py-2 rounded">Home</button></a>
+            <a href="about_page.html"><button class="about_button bg-blue-500 text-white px-4 py-2 rounded">About</button></a>
+            <button class="prime_button bg-blue-500 text-white px-4 py-2 rounded" onclick="togglePrimeFacilities()">Prime Facilities</button>
+        </div>
+    </div>
+    
+    <!-- Prime Facilities Dropdown -->
+    <div id="prime-facilities-menu" class="hidden absolute top-16 right-4 bg-white shadow-md rounded-lg p-4 space-y-2">
+        <a href="lounge.html"><button class="block w-full bg-blue-500 text-white px-4 py-2 rounded">VIP Lounge</button></a>
+        <a href="entertainment.html"><button class="block w-full bg-blue-500 text-white px-4 py-2 rounded">Entertainment Package</button></a>
+        <a href="baggage.html"><button class="block w-full bg-blue-500 text-white px-4 py-2 rounded">Baggage Fee Estimator</button></a>
+        <a href="fare.html"><button class="block w-full bg-blue-500 text-white px-4 py-2 rounded">Fare Prediction</button></a>
+    </div>
+<body class="bg-gray-100 flex justify-center items-center h-screen">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-96 text-center">
+        <h2 class="text-2xl font-semibold text-gray-700 mb-4">Airport Lounge Access</h2>
+        <form onsubmit="return confirmLounge(event)">
+            <div class="mb-4 text-left">
+                <label class="block font-medium text-gray-600">Do you have a membership?</label>
+                <div class="flex gap-4 mt-2">
+                    <button type="button" onclick="showMembershipInput(true)" class="w-1/2 bg-green-500 text-white py-2 rounded-lg">Yes</button>
+                    <button type="button" onclick="showMembershipInput(false)" class="w-1/2 bg-red-500 text-white py-2 rounded-lg">No</button>
+                </div>
+            </div>
+            <div class="mb-4 text-left hidden" id="membershipContainer">
+                <label class="block font-medium text-gray-600" for="membership">Membership Number</label>
+                <input type="text" id="membership" name="membership" placeholder="Enter your membership number" 
+                    class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400" oninput="updatePrice()">
+            </div>
+            <div id="detailsContainer">
+                <div class="mb-4 text-left">
+                    <label class="block font-medium text-gray-600" for="passport">Passport Number</label>
+                    <input type="text" id="passport" name="passport" required placeholder="Enter your passport number" 
+                        class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400">
+                </div>
+                <div class="mb-4 text-left">
+                    <label class="block font-medium text-gray-600" for="airline">Select Airline</label>
+                    <select id="airline" name="airline" required 
+                        class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400">
+                        <option value="">-- Select Airline --</option>
+                        <option value="airline1">Airline 1</option>
+                        <option value="airline2">Airline 2</option>
+                        <option value="airline3">Airline 3</option>
+                    </select>
+                </div>
+                <div class="mb-4 text-left">
+                    <label class="block font-medium text-gray-600" for="lounge">Select Lounge Location:</label>
+                    <select id="lounge" onchange="updatePrice()" 
+                        class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400">
+                        <option value="0">-- Select Lounge --</option>
+                        <option value="2500">Mumbai Airport Lounge - ₹2500</option>
+                        <option value="3000">Delhi Airport Lounge - ₹3000</option>
+                        <option value="4000">Dubai Airport Lounge - ₹4000</option>
+                        <option value="5000">London Airport Lounge - ₹5000</option>
+                    </select>
+                </div>
+                <div class="text-lg font-semibold text-gray-700 mb-4" id="priceText">Price: ₹0</div>
+            </div>
+            <button id="confirmBtn" disabled 
+                class="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-lg mt-4 transition duration-300 hover:bg-blue-700 disabled:bg-gray-400">
+                Confirm Purchase
+            </button>
+        </form>
+        <div class="text-sm text-gray-500 mt-4">Need help? Contact our support team.</div>
+    </div>
+    <div id="notification" class="fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-lg hidden text-center">
+        <p id="notificationText" class="font-bold">Lounge Access Added Successfully!</p>
+    </div>
+    <script>
+        function showMembershipInput(hasMembership) {
+            let membershipContainer = document.getElementById("membershipContainer");
+            let detailsContainer = document.getElementById("detailsContainer");
+            let membershipInput = document.getElementById("membership");
+
+            if (hasMembership) {
+                membershipContainer.classList.remove("hidden");
+                detailsContainer.classList.add("hidden");
+                membershipInput.value = "";
+            } else {
+                membershipContainer.classList.add("hidden");
+                detailsContainer.classList.remove("hidden");
+            }
+            updatePrice();
+        }
+
+        function updatePrice() {
+            let loungeSelect = document.getElementById("lounge");
+            let priceText = document.getElementById("priceText");
+            let membershipInput = document.getElementById("membership").value.trim();
+            let confirmBtn = document.getElementById("confirmBtn");
+
+            let selectedPrice = membershipInput ? 0 : parseInt(loungeSelect.value);
+            priceText.innerHTML = "Price: ₹" + selectedPrice;
+
+            // Enable button only if a valid lounge is selected or membership is entered
+            confirmBtn.disabled = !(selectedPrice > 0 || membershipInput.length > 0);
+        }
+
+        function confirmLounge(event) {
+            event.preventDefault(); // Prevent form submission
+            let notification = document.getElementById("notification");
+            let notificationText = document.getElementById("notificationText");
+            notificationText.innerHTML = "🎉 Congratulations! Your lounge access is confirmed. Enjoy your stay! ✈️";
+            notification.classList.remove("hidden");
+            notification.classList.add("animate-bounce");
+            setTimeout(() => {
+                notification.classList.add("hidden");
+                notification.classList.remove("animate-bounce");
+            }, 4000);
+        }
+    </script>
+</body>
+</html>
