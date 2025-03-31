@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            .flights-container {
+                position: absolute; /* Absolute positioning */
+                top: 60%; /* Adjust the percentage to move it up or down */
+                left: 50%; /* Center horizontally */
+                transform: translate(-50%, -50%); /* Ensure it remains centered */
+                width: 80%;
+                padding: 20px;
+                border-radius: 10px;
+                background: rgba(255, 255, 255, 0.6);
+                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+                z-index: 10;
+            }
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            th, td {
+                border: 1px solid black;
+                padding: 8px;
+                text-align: left;
+            }
+            th {
+                background-color: #f2f2f2;
+            }
+            .select-btn {
+                padding: 5px 10px;
+                background-color: #4CAF50;
+                color: white;
+                border: none;
+                cursor: pointer;
+            }
+            .select-btn:hover {
+                background-color: #45a049;
+            }
+        </style>
+        
+        <title>Airline Reservation System</title>
+        <link rel="stylesheet" href="styles/header.css">
+        <link rel="stylesheet" href="styles/background.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+        <style>
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            th, td {
+                border: 1px solid black;
+                padding: 8px;
+                text-align: left;
+            }
+            th {
+                background-color: #f2f2f2;
+            }
+            .select-btn {
+                padding: 5px 10px;
+                background-color: #4CAF50;
+                color: white;
+                border: none;
+                cursor: pointer;
+            }
+            .select-btn:hover {
+                background-color: #45a049;
+            }
+        </style>
+        <script defer>
+            const SUPABASE_URL = "https://psvfacqymwdovnjnhowo.supabase.co";
+            const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBzdmZhY3F5bXdkb3Zuam5ob3dvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI3MzI1NDYsImV4cCI6MjA1ODMwODU0Nn0.Q2s9rR30QQUkdZ02YM2HJyGWfB3I9omST4n2gEUqLic";
+
+            async function fetchFlights() {
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/flights`, {
+                    headers: {
+                        "apikey": SUPABASE_KEY,
+                        "Authorization": `Bearer ${SUPABASE_KEY}`
+                    }
+                });
+                const flights = await response.json();
+                displayFlights(flights);
+            }
+
+            function displayFlights(flights) {
+                const tableBody = document.getElementById("flightsTableBody");
+                tableBody.innerHTML = "";
+                flights.forEach(flight => {
+                    const row = `<tr>
+                        <td>${flight.flight_id}</td>
+                        <td>${flight.flight_name}</td>
+                        <td>${flight.flight_plane_type}</td>
+                        <td>${flight.source}</td>
+                        <td>${flight.destination}</td>
+                        <td>${flight.duration}</td>
+                        <td><button class="select-btn" onclick="selectFlight('${flight.flight_id}', '${flight.flight_name}')">Select</button></td>
+                    </tr>`;
+                    tableBody.innerHTML += row;
+                });
+            }
+
+            function selectFlight(id, name) {
+                localStorage.setItem("selectedFlightId", id); // Save flight ID in localStorage
+                window.location.href = `personalinfo.html`; // Redirect to personal info page
+            }
+
+
+            window.onload = fetchFlights;
+        </script>
+    </head>
+    <body>
+        <div class="header">
+            <img class="logo" src="images/air_logo.png">
+            <p class="name">SAIRAJ AIRWAYS</p>
+            <div class="buttons">
+                <a href="login_page.html"><button class="login_button">Login</button></a>
+                <a href="index.html"><button class="home_button">Home</button></a>
+                <a href="about_page.html"><button class="about_button">About</button></a>
+                <a href="contact_page.html"><button class="contact_button">Contact</button></a>
+            </div>
+        </div>
+        <div class="homepage_background">
+            <img class="background_img" src="images/back2.jpeg" alt="">
+
+            
+            <div class="flights-container">
+                <h2>Available Flights</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Flight ID</th>
+                            <th>Flight Name</th>
+                            <th>Plane Type</th>
+                            <th>Source</th>
+                            <th>Destination</th>
+                            <th>Duration</th>
+                            <th>Select</th>
+                        </tr>
+                    </thead>
+                    <tbody id="flightsTableBody">
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="bottom_info">
+                <p class="email"> Email: sairajnaik-cmpn@atharvacoe.ac.in | sairajnaik.t@gmail.com |</p>
+                <p class="contact_no"> Contact No: 8779759296 | 9985651818 |</p>
+                <p class="more_info">Ticket Booking | Ticket Reservation | Airline Reservation |</p>
+                <p class="trademark">@2025 All Rights Reserved SAIRAJ AIRWAYS</p>
+                <img class="bottom_air_logo" src="images/air_logo.png">
+                <div class="bottom_logo">
+                    <img class="fb_logo" src="images/fb_logo.png">
+                    <img class="x_logo" src="images/x.jpeg">
+                    <img class="insta_logo" src="images/insta.png">
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
