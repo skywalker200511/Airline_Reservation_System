@@ -8,16 +8,18 @@
     <link rel="stylesheet" href="styles/booking_style.css">
     <link rel="stylesheet" href="styles/header.css">
     <style>
+        /* Global Body Styles */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background: url('') no-repeat center center/cover;
+            background: url('images/homepage_background.jpg') no-repeat center center/cover;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
+        /* Booking Container Styles */
         .booking-container {
             display: flex;
             flex-wrap: wrap;
@@ -31,6 +33,7 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
+        /* Booking Box Styles */
         .booking-box {
             flex: 1;
             min-width: 320px;
@@ -40,6 +43,7 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
+        /* Input and Button Styles */
         .booking-input, .booking-button {
             width: 100%;
             padding: 10px;
@@ -59,35 +63,20 @@
         .booking-button:hover {
             background-color: #0056b3;
         }
-
-        .hidden {
-            display: none;
-        }
-
-        .passenger {
-            border-top: 1px solid #ccc;
-            padding-top: 10px;
-            margin-top: 10px;
-        }
-        
-        .pers_info_bg {
-            position: absolute;
-            height: 100%;
-            width: 100%;
-            z-index: -1;
+        cb_special{
+            width: 50%;
         }
     </style>
 </head>
 <body>
-    <img class="pers_info_bg" src="images/homepage_background.jpg" alt="">
     <div class="header">
         <img class="logo" src="images/air_logo.png">
-        <p class="name">SAIRAJ AIRWAYS</p>
+        <p class="name">CLOUDTRIP</p>
         <div class="buttons">
             <a href="login_page.html"><button class="login_button">Login</button></a>
             <a href="index.html"><button class="home_button">Home</button></a>
             <a href="about_page.html"><button class="about_button">About</button></a>
-            <a href="contact_page.html"><button class="contact_button">Contact</button></a>
+            
         </div>
     </div>
 
@@ -102,25 +91,36 @@
                 </div>
             </div>
             <button class="booking-button" onclick="addPassenger()">Add Passenger</button>
-            <label>
-                <input type="checkbox" id="extra-services" onchange="toggleExtraServices(this)">
-                Traveling with a special person?
-            </label>
-            <button id="extra-services-btn" class="booking-button hidden" onclick="location.href='specialform.html'">Special Person Features</button>
+
         </div>
 
         <div class="booking-box">
             <h2>Contact Information</h2>
             <input type="tel" class="booking-input" id="contact" placeholder="Phone Number" required>
             <input type="email" class="booking-input" id="email" placeholder="Email" required>
+            <input type="checkbox" id="redirectCheckbox" onclick="redirectToForm()">
+<label for="redirectCheckbox">Is Passenger Specially Abled/Senior Citizen?</label>
         </div>
     </div>
 
     <div style="margin-top: 20px;">
-        <button class="booking-button" onclick="storeData(event)">Proceed</button>
+        <button class="booking-button" id="proceed-btn">Proceed</button>
     </div>
 
-    <script>
+    <script type="module">
+        import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+    
+        const supabaseUrl = "https://psvfacqymwdovnjnhowo.supabase.co";
+        const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBzdmZhY3F5bXdkb3Zuam5ob3dvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI3MzI1NDYsImV4cCI6MjA1ODMwODU0Nn0.Q2s9rR30QQUkdZ02YM2HJyGWfB3I9omST4n2gEUqLic";  
+        const supabase = createClient(supabaseUrl, supabaseKey);
+        
+        document.getElementById("redirectCheckbox").addEventListener("change", function() {
+    if (this.checked) {
+      window.location.href = "specialform.html";
+    }
+  });
+
+        // Function to add a new passenger input fields
         function addPassenger() {
             let container = document.getElementById("passenger-info");
             let div = document.createElement("div");
@@ -132,45 +132,69 @@
             `;
             container.appendChild(div);
         }
-
-        function toggleExtraServices(checkbox) {
-            document.getElementById("extra-services-btn").style.display = checkbox.checked ? "block" : "none";
-        }
-
-        function storeData(event) {
+    
+        // Function to store booking data
+        async function storeData(event) {
             event.preventDefault();
+    
             const phone = document.getElementById("contact").value;
             const email = document.getElementById("email").value;
             const flightId = localStorage.getItem("selectedFlightId");
-
+    
             if (!flightId) {
                 alert("No flight selected! Please go back and choose a flight.");
                 return;
             }
-
+    
             if (!phone || !email) {
                 alert("Please enter contact details.");
                 return;
             }
-
+    
             let passengers = [];
             document.querySelectorAll(".passenger").forEach((passenger) => {
                 let name = passenger.querySelector(".name").value;
                 let age = passenger.querySelector(".age").value;
                 let dob = passenger.querySelector(".dob").value;
-
+    
                 if (name && age && dob) {
                     passengers.push({ name, age: parseInt(age), dob, phone, email, flight_id: flightId });
                 }
             });
-
+    
             if (passengers.length === 0) {
                 alert("Please enter at least one passenger.");
                 return;
             }
-
-            window.location.href = "baggage.html";
+    
+            console.log("Passengers to insert:", passengers); // Check if passengers data is correct
+    
+            try {
+                let { data, error } = await supabase.from("bookings").insert(passengers);
+                if (error) {
+                    console.error("Error inserting data:", error); // Log the error if any
+                    throw error;
+                }
+    
+                console.log("Data inserted:", data); // Log the inserted data for debugging
+    
+                alert("Booking confirmed!");
+                window.location.href = "baggage.html";  // Redirect after successful booking
+            } catch (err) {
+                console.error("Error:", err);
+                alert("Error saving data: " + err.message);
+            }
         }
+    
+        // Add event listener for the "Proceed" button (not the Add Passenger button)
+        document.getElementById("proceed-btn").addEventListener("click", storeData);
+    
+        // Add event listener for the Add Passenger button
+        document.querySelector("button.booking-button").addEventListener("click", addPassenger);
     </script>
+    
+    
+    
+    
 </body>
 </html>

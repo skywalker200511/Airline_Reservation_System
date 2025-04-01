@@ -6,7 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Extra Baggage Allowance Calculator</title>
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    
+    
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -19,12 +20,12 @@
             max-width: 400px;
             background: white;
             padding: 20px;
-            margin: 120px auto 20px; /* Add margin-top to account for header height */
+            margin: 120px auto 20px; 
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             background-color: rgba(151, 149, 149, 0.4);
             border-radius: 10px;
         }
-        .name{
+        .name {
             position: absolute;
             right: 0%;
         }
@@ -49,7 +50,7 @@
         .pay-btn {
             background-color: #28a745;
             color: white;
-            display: none; /* Initially hidden */
+            display: none;
         }
         .pay-btn:hover {
             background-color: #218838;
@@ -58,6 +59,22 @@
             margin-top: 15px;
             font-size: 18px;
             font-weight: bold;
+        }
+        .loading {
+            display: none;
+            color: #666;
+            font-style: italic;
+            margin-top: 10px;
+        }
+        .success-message {
+            color: green;
+            display: none;
+            margin-top: 10px;
+        }
+        .error-message {
+            color: red;
+            display: none;
+            margin-top: 10px;
         }
         .navbar {
             display: flex;
@@ -83,41 +100,32 @@
         .nav-links a:hover {
             background-color: #0056b3;
         }
-        /* Dropdown container styling */
-.dropdown {
-    position: absolute;
-    left: 20%;
-    width: 50px;
-    border-radius: 20px;
-
-}
-
-        /* Dropdown menu styling */
+        .dropdown {
+            position: absolute;
+            left: 20%;
+            width: 50px;
+            border-radius: 20px;
+        }
         .dropdown-content {
-            
             display: none;
             position: absolute;
             background-color: rgba(231, 230, 230, 0.4);
-            min-width: 160px; /* Slightly wider for better readability */
+            min-width: 160px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
             z-index: 1;
             border-radius: 5px;
             overflow: hidden;
-            transition: all 0.3s ease; /* Smooth transition for showing the menu */
+            transition: all 0.3s ease;
             opacity: 0; 
-            visibility: hidden; /* Initially hidden */
-            transform: translateY(-10px); /* Start from above */
+            visibility: hidden;
+            transform: translateY(-10px);
         }
-
-        /* Hover effect to display the dropdown */
         .dropdown:hover .dropdown-content {
             display: block;
             opacity: 1;
             visibility: visible;
-            transform: translateY(0); /* Menu slides in */
+            transform: translateY(0);
         }
-
-        /* Dropdown item styling */
         .dropdown-content a {
             display: block;
             padding: 12px 16px;
@@ -127,15 +135,11 @@
             font-weight: 500;
             transition: background-color 0.3s ease, padding-left 0.3s ease;
         }
-
-        /* Hover effect for dropdown items */
         .dropdown-content a:hover {
-            background-color: rgba(143, 143, 143, 0.4);; /* Subtle background on hover */
-            color: #000000; /* Highlight text color */
-            padding-left: 20px; /* Slightly move the item to the right */
+            background-color: rgba(143, 143, 143, 0.4);
+            color: #000000;
+            padding-left: 20px;
         }
-
-        /* Add some styling to the dropdown toggle button (if applicable) */
         .dropdown > a {
             text-decoration: none;
             color: #000000;
@@ -145,13 +149,10 @@
             display: inline-block;
             transition: color 0.3s ease;
         }
-
-        /* Change color on hover for the dropdown button */
         .dropdown > a:hover {
             color: #333333;
         }
-
-        .contact_button{
+        .contact_button {
             margin-right: 40px;
             padding-right: 40px;
         }
@@ -161,7 +162,7 @@
             left: 0;
             width: 100%;
             height: 100%; 
-            background-image: url('your-background-image.jpg');
+            background-image: url('images/bg_register.png');
             background-size: cover; 
             background-position: center;
             z-index: -1;
@@ -171,12 +172,12 @@
 <body>
     <div class="header">
         <img class="logo" src="images/air_logo.png">
-        <p class="name">SAIRAJ AIRWAYS</p>
+        <p class="name">CLOUDTRIP</p>
         <div class="buttons">
-        <a href="login_page.html"><button class="login_button">Login</button></a>
-        <a href="index.html"><button class="home_button">Home</button></a>
-        <a href="about_page.html"><button class="about_button">About</button></a>
-        <a href="contact_page.html"><button class="contact_button">Contact</button></a>
+            <a href="login_page.html"><button class="login_button">Login</button></a>
+            <a href="index.html"><button class="home_button">Home</button></a>
+            <a href="about_page.html"><button class="about_button">About</button></a>
+           
         </div>
         <div class="dropdown">
             <a href="#">Prime Facilities</a>
@@ -188,7 +189,7 @@
             </div>
         </div>
     </div>
-    <img class = "bag_bg"src="images/bg_register.png" alt="">
+    <img class="bag_bg" src="images/bg_register.png" alt="">
     <div class="container_bag">
         <h2>Baggage Fee Estimator</h2>
         <label for="travelClass">Select Travel Class:</label>
@@ -201,64 +202,119 @@
         <label for="baggageWeight">Enter Your Baggage Weight (kg):</label>
         <input type="number" id="baggageWeight" placeholder="Enter weight in kg" min="0">
 
-        <button class="calculate-btn" onclick="calculateExtraBaggage()">Calculate Fee</button>
+        <button id="calculateButton" class="calculate-btn">Calculate Fee</button>
+
         <div class="result" id="result"></div>
-        <button class="pay-btn" id="payButton" onclick="payNow()">Pay Now</button>
+        <div id="loading" class="loading">Saving to database...</div>
+        <div id="successMessage" class="success-message">Fee saved successfully!</div>
+        <div id="errorMessage" class="error-message"></div>
     </div>
 
-    <script>
-        let extraFee = 0;
-
-        function calculateExtraBaggage() {
-            let travelClass = document.getElementById("travelClass").value;
-            let baggageWeight = parseFloat(document.getElementById("baggageWeight").value);
-            let allowances = { "Economy": 20, "Business": 30, "First Class": 40 };
-            let charges = { "Economy": 500, "Business": 400, "First Class": 300 };
-
-            let resultDiv = document.getElementById("result");
-            let payButton = document.getElementById("payButton");
-
-            if (isNaN(baggageWeight) || baggageWeight <= 0) {
-                resultDiv.innerHTML = "Please enter a valid baggage weight.";
-                resultDiv.style.color = "red";
-                payButton.style.display = "none";
-                extraFee = 0; 
-                return;
-            }
-
-            let allowedWeight = allowances[travelClass];
-            let extraWeight = baggageWeight - allowedWeight;
-
-            if (extraWeight > 0) {
-                extraFee = extraWeight * charges[travelClass];
-                resultDiv.innerHTML = `Extra baggage fee: <strong>INR ${extraFee}</strong> (for ${extraWeight}kg over limit).`;
-                resultDiv.style.color = "#007bff";
-                payButton.style.display = "block";
-            } else {
-                resultDiv.innerHTML = `Your baggage is within the free limit of ${allowedWeight}kg. No extra charges.`;
-                resultDiv.style.color = "green";
-                payButton.style.display = "none";
-            }
-        }
-
-        function payNow() {
-            let options = {
-                "key": "rzp_test_YourAPIKey", 
-                "amount": extraFee * 100, 
-                "currency": "INR",
-                "name": "Airline Baggage Payment",
-                "description": "Extra Baggage Fee Payment",
-                "image": "https://yourlogo.com/logo.png", 
-                "handler": function(response) {
-                    alert("Payment Successful! Payment ID: " + response.razorpay_payment_id);
-                },
-                "theme": {
-                    "color": "#007bff"
+    <script type="module">
+        import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+        
+        const supabase = createClient(
+            "https://psvfacqymwdovnjnhowo.supabase.co",
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBzdmZhY3F5bXdkb3Zuam5ob3dvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI3MzI1NDYsImV4cCI6MjA1ODMwODU0Nn0.Q2s9rR30QQUkdZ02YM2HJyGWfB3I9omST4n2gEUqLic"
+        );
+    
+        document.addEventListener('DOMContentLoaded', function() {
+            const calculateBtn = document.getElementById("calculateButton");
+            const resultDiv = document.getElementById("result");
+            const loadingDiv = document.getElementById("loading");
+            const successDiv = document.getElementById("successMessage");
+            const errorDiv = document.getElementById("errorMessage");
+    
+            calculateBtn.addEventListener("click", async function() {
+                successDiv.style.display = "none";
+                errorDiv.style.display = "none";
+    
+                const travelClass = document.getElementById("travelClass").value;
+                const baggageWeight = parseFloat(document.getElementById("baggageWeight").value);
+    
+                if (isNaN(baggageWeight)) {
+                    resultDiv.innerHTML = "Please enter a valid baggage weight.";
+                    resultDiv.style.color = "red";
+                    return;
                 }
-            };
-            let rzp = new Razorpay(options);
-            rzp.open();
-        }
+    
+                const allowances = { "Economy": 20, "Business": 30, "First Class": 40 };
+                const charges = { "Economy": 500, "Business": 400, "First Class": 300 };
+                
+                const allowedWeight = allowances[travelClass];
+                const extraWeight = Math.max(0, baggageWeight - allowedWeight);
+                const extraFee = extraWeight * charges[travelClass];
+    
+                if (extraWeight > 0) {
+                    resultDiv.innerHTML = `Extra baggage fee: <strong>₹${extraFee}</strong> (${extraWeight}kg over limit)`;
+                    resultDiv.style.color = "#007bff";
+                } else {
+                    resultDiv.innerHTML = `Within free allowance (${allowedWeight}kg). No extra charges.`;
+                    resultDiv.style.color = "green";
+                    return;
+                }
+    
+                try {
+                    loadingDiv.style.display = "block";
+    
+                    // 1. Check BOTH tables for most recent record
+                    const [
+                        { data: recentBooking },
+                        { data: recentSpecial }
+                    ] = await Promise.all([
+                        supabase.from('bookings').select('id,fees,created_at').order('created_at', { ascending: false }).limit(1).single(),
+                        supabase.from('special_pass').select('id,fees,created_at').order('created_at', { ascending: false }).limit(1).single()
+                    ]);
+    
+                    // 2. Determine which is newer
+                    let targetTable, targetId, currentFees;
+                    if (recentBooking && recentSpecial) {
+                        if (new Date(recentBooking.created_at) > new Date(recentSpecial.created_at)) {
+                            [targetTable, targetId, currentFees] = ['bookings', recentBooking.id, recentBooking.fees || 0];
+                        } else {
+                            [targetTable, targetId, currentFees] = ['special_pass', recentSpecial.id, recentSpecial.fees || 0];
+                        }
+                    } 
+                    else if (recentBooking) {
+                        [targetTable, targetId, currentFees] = ['bookings', recentBooking.id, recentBooking.fees || 0];
+                    }
+                    else if (recentSpecial) {
+                        [targetTable, targetId, currentFees] = ['special_pass', recentSpecial.id, recentSpecial.fees || 0];
+                    }
+                    else {
+                        throw new Error("No records found in either table");
+                    }
+    
+                    // 3. Calculate new total (existing + extra fee)
+                    const newTotal = currentFees + extraFee;
+    
+                    // 4. Update the appropriate table
+                    const { error } = await supabase
+                        .from(targetTable)
+                        .update({ fees: newTotal })
+                        .eq('id', targetId);
+    
+                    if (error) throw error;
+    
+                    successDiv.textContent = `Added ₹${extraFee} to ${targetTable.replace('_', ' ')} (New total: ₹${newTotal})`;
+                    successDiv.style.display = "block";
+                    setTimeout(() => successDiv.style.display = "none", 5000);
+                    
+                } catch (error) {
+                    console.error("Error details:", {
+                        error,
+                        recentBooking,
+                        recentSpecial,
+                        extraFee
+                    });
+                    errorDiv.textContent = `Error: ${error.message}`;
+                    errorDiv.style.display = "block";
+                } finally {
+                    loadingDiv.style.display = "none";
+                }
+            });
+        });
     </script>
+    
 </body>
 </html>

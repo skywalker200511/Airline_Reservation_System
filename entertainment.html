@@ -1,11 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="styles/header.css">
+    <link rel="stylesheet" href="styles/background.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>In-Flight Services Booking</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        .service-cb {
+            margin-left: -12px;
+            width: 100px;
+        }
+        .meal_cb{
+            margin-left: -12px;
+            width: 100px;
+        }
+        .ent_cb{
+            margin-left: -12px;
+            width: 100px;
+        }
+        .wifi_cb{
+            margin-left: -12px;
+            width: 100px;
+        }
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
@@ -14,10 +32,10 @@
         }
         .container {
             max-width: 400px;
-            background: white;
+            background: rgba(199, 199, 199, 0.5);
             padding: 20px;
             margin: auto;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
             border-radius: 10px;
         }
         h1 {
@@ -55,67 +73,283 @@
             font-size: 16px;
             color: #28a745;
         }
-    </style>
-    <script>
-        function togglePrimeFacilities() {
-            document.getElementById('prime-facilities-menu').classList.toggle('hidden');
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 20px;
         }
-    </script>
+        .container_bag {
+            top: 50%;
+            max-width: 400px;
+            background: white;
+            padding: 20px;
+            margin: 120px auto 20px; 
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: rgba(151, 149, 149, 0.4);
+            border-radius: 10px;
+        }
+        .name{
+            position: absolute;
+            right: 0%;
+        }
+        select, input, .calculate-btn, .pay-btn {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .calculate-btn {
+            background-color: #007bff;
+            color: white;
+        }
+        .calculate-btn:hover {
+            background-color: #0056b3;
+        }
+        .pay-btn {
+            background-color: #28a745;
+            color: white;
+            display: none; /* Initially hidden */
+        }
+        .pay-btn:hover {
+            background-color: #218838;
+        }
+        .result {
+            margin-top: 15px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #007bff;
+            padding: 15px;
+            color: white;
+        }
+        .navbar .logo {
+            height: 50px;
+        }
+        .navbar .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+        .nav-links a:hover {
+            background-color: #0056b3;
+        }
+        .dropdown {
+            position: absolute;
+            left: 20%;
+            width: 50px;
+            border-radius: 20px;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: rgba(231, 230, 230, 0.4);
+            min-width: 160px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 5px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            opacity: 0; 
+            visibility: hidden;
+            transform: translateY(-10px);
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .dropdown-content a {
+            display: block;
+            padding: 12px 16px;
+            color: #333;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            transition: background-color 0.3s ease, padding-left 0.3s ease;
+        }
+        .dropdown-content a:hover {
+            background-color: rgba(143, 143, 143, 0.4);
+            color: #000000;
+            padding-left: 20px;
+        }
+        .dropdown > a {
+            text-decoration: none;
+            color: #000000;
+            font-size: 18px;
+            padding: 12px;
+            font-weight: bold;
+            display: inline-block;
+            transition: color 0.3s ease;
+        }
+        .dropdown > a:hover {
+            color: #333333;
+        }
+        .contact_button{
+            margin-right: 40px;
+            padding-right: 40px;
+        }
+        .bag_bg {
+            position: fixed; 
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%; 
+            background-image: url('your-background-image.jpg');
+            background-size: cover; 
+            background-position: center;
+            z-index: -1;
+        }
+    
+    </style>
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <div class="header w-full fixed top-0 left-0 bg-white shadow-md flex justify-between items-center p-4">
-        <img class="logo h-12" src="images/air_logo.png" alt="Airline Logo">
-        <p class="name text-xl font-bold">SAIRAJ AIRWAYS</p>
-        <div class="buttons flex space-x-4">
-            <a href="login_page.html"><button class="login_button bg-blue-500 text-white px-4 py-2 rounded">Login</button></a>
-            <a href="index.html"><button class="home_button bg-blue-500 text-white px-4 py-2 rounded">Home</button></a>
-            <a href="about_page.html"><button class="about_button bg-blue-500 text-white px-4 py-2 rounded">About</button></a>
-            <button class="prime_button bg-blue-500 text-white px-4 py-2 rounded" onclick="togglePrimeFacilities()">Prime Facilities</button>
+    <img class="bag_bg" src="images/booking_bg.jpeg" alt="">
+    <div class="header">
+        <div class="header">
+            <img class="logo" src="images/air_logo.png">
+            <p class="name">CLOUDTRIP</p>
+            <div class="buttons">
+                <a href="login_page.html"><button class="login_button">Login</button></a>
+                <a href="index.html"><button class="home_button">Home</button></a>
+                <a href="about_page.html"><button class="about_button">About</button></a>
+                
+            </div>
+            <div class="dropdown">
+                <a href="#">Prime Facilities</a>
+                <div class="dropdown-content">
+                    <a href="lounge.html">VIP Lounge</a>
+                    <a href="entertainment.html">Entertainment Package</a>
+                    <a href="baggage.html">Baggage Fee Estimator</a>
+                    <a href="fare.html">Fare Prediction</a>
+                </div>
+            </div>
         </div>
     </div>
-    
-    <!-- Prime Facilities Dropdown -->
-    <div id="prime-facilities-menu" class="hidden absolute top-16 right-4 bg-white shadow-md rounded-lg p-4 space-y-2">
-        <a href="lounge.html"><button class="block w-full bg-blue-500 text-white px-4 py-2 rounded">VIP Lounge</button></a>
-        <a href="entertainment.html"><button class="block w-full bg-blue-500 text-white px-4 py-2 rounded">Entertainment Package</button></a>
-        <a href="baggage.html"><button class="block w-full bg-blue-500 text-white px-4 py-2 rounded">Baggage Fee Estimator</button></a>
-        <a href="fare.html"><button class="block w-full bg-blue-500 text-white px-4 py-2 rounded">Fare Prediction</button></a>
-    </div>
 
-    <!-- Main Content -->
     <div class="container mt-20">
-        <h1>Pre-Book In-Flight Services</h1>
+        <h1 class="text-2xl font-bold mb-4">Pre-Book In-Flight Services</h1>
         <form id="serviceForm">
-            <label>
-                <input type="checkbox" name="wifi"> WiFi Access
+            <!-- WiFi Access -->
+            <label class="flex items-center my-2">
+                <input class="service-cb" type="checkbox" name="wifi" data-price="500">
+                WiFi Access
+                <span class="price-tag">₹500</span>
             </label>
-            <label>
-                <input type="checkbox" name="meal"> Pre-Ordered Meal
+            
+            <!-- Pre-Ordered Meal -->
+            <label class="flex items-center my-2">
+                <input class="service-cb" type="checkbox" name="meal" data-price="750">
+                Pre-Ordered Meal
+                <span class="price-tag">₹750</span>
             </label>
-            <label>
-                <input type="checkbox" name="entertainment"> Premium Entertainment Package
+            
+            <!-- Extra Legroom -->
+            <label class="flex items-center my-2">
+                <input class="service-cb" type="checkbox" name="legroom" data-price="500">
+                Extra Legroom Seat
+                <span class="price-tag">₹500</span>
             </label>
-            <button type="submit">Confirm Booking</button>
+            
+            <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded mt-4">
+                Confirm Services
+            </button>
         </form>
-        <div id="confirmationMessage"></div>
+        <div id="totalPrice" class="font-bold text-lg mt-3"></div>
     </div>
 
-    <script>
-        document.getElementById("serviceForm").addEventListener("submit", function(event) {
-            event.preventDefault();
-            let services = [];
-            document.querySelectorAll('input[type="checkbox"]:checked').forEach(checkbox => {
-                services.push(checkbox.nextSibling.textContent.trim());
-            });
-            if (services.length) {
-                let message = "You have successfully booked: " + services.join(", ");
-                document.getElementById("confirmationMessage").innerText = message;
-                alert(message); // Popup notification
-            } else {
-                document.getElementById("confirmationMessage").innerText = "No services selected.";
-                alert("No services selected."); // Popup notification
+    <script type="module">
+        import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+        
+        const supabase = createClient(
+            "https://psvfacqymwdovnjnhowo.supabase.co",
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBzdmZhY3F5bXdkb3Zuam5ob3dvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI3MzI1NDYsImV4cCI6MjA1ODMwODU0Nn0.Q2s9rR30QQUkdZ02YM2HJyGWfB3I9omST4n2gEUqLic"
+        );
+    
+        document.getElementById("serviceForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            
+            // Calculate fees
+            const feesToAdd = Array.from(document.querySelectorAll('input[type="checkbox"]:checked'))
+                .reduce((sum, cb) => sum + parseInt(cb.dataset.price), 0);
+    
+            if (feesToAdd <= 0) {
+                alert("Please select at least one service");
+                return;
             }
+    
+            try {
+                // 1. Check both tables without RPC
+                const { data: bookings } = await supabase
+                    .from('bookings')
+                    .select('id,fees,created_at')
+                    .order('created_at', { ascending: false })
+                    .limit(1);
+                
+                const { data: special } = await supabase
+                    .from('special_pass')
+                    .select('id,fees,created_at')
+                    .order('created_at', { ascending: false })
+                    .limit(1);
+    
+                // 2. Find newest record
+                const getNewest = (a, b) => {
+                    if (!a[0] && !b[0]) return null;
+                    if (!a[0]) return { ...b[0], table: 'special_pass' };
+                    if (!b[0]) return { ...a[0], table: 'bookings' };
+                    return new Date(a[0].created_at) > new Date(b[0].created_at) 
+                        ? { ...a[0], table: 'bookings' } 
+                        : { ...b[0], table: 'special_pass' };
+                };
+    
+                const newest = getNewest(bookings || [], special || []);
+                if (!newest) throw new Error("No records found");
+    
+                // 3. Calculate new total
+                const currentFees = newest.fees || 0;
+                const newTotal = newest.table === 'bookings' 
+                    ? currentFees + parseFloat(feesToAdd)  // numeric
+                    : currentFees + parseInt(feesToAdd);   // int4
+    
+                // 4. Update
+                const { error } = await supabase
+                    .from(newest.table)
+                    .update({ fees: newTotal })
+                    .eq('id', newest.id);
+    
+                if (error) throw error;
+    
+                alert(`✅ Added ₹${feesToAdd} (New total: ₹${newTotal})`);
+                window.location.href = "baggage.html";
+    
+            } catch (error) {
+                console.error("Update failed:", { error, feesToAdd });
+                alert("Payment failed. Check console for details.");
+            }
+        });
+    
+        // Real-time total display
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const total = Array.from(document.querySelectorAll('input[type="checkbox"]:checked'))
+                    .reduce((sum, cb) => sum + parseInt(cb.dataset.price), 0);
+                document.getElementById("totalPrice").textContent = total > 0 ? `Total to add: ₹${total}` : '';
+            });
         });
     </script>
 </body>
