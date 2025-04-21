@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="styles/background.css">
+    <link rel="stylesheet" href="styles/header.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Page</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+
+        .bg_register{
+            width: 100%;
+        position: relative;
+        top: -200px;
+        height: calc(100% + 200px);
+        overflow: hidden;
+        }
+        body {
+          background-color: #f8f9fa;
+        }
+        .container {
+            position: absolute;
+          max-width: 600px;
+          margin: auto;
+          padding: 20px;
+          background-color: rgba(255, 255, 255, 0.4);
+          border-radius: 10px;
+          box-shadow: 0 0 10px rgba(0,0,0,0.1);
+          margin-top: 50px;
+          top: 10%;
+          left: 35%;
+
+        }
+        .form-group {
+          margin-bottom: 20px;
+        }
+        h2 {
+          margin-bottom: 20px;
+        }
+        button {
+          width: 100%;
+        }
+    </style>
+</head>
+<body >
+    <img class="bg_register" src="images/about_back.jpeg">
+    <div class="header">
+        <img class="logo" src="images/air_logo.png">
+        <p class="name">CLOUDTRIP</p>
+        <div class="buttons">
+        <a href="login_page.html"><button class="login_button">Login</button></a>
+        <a href="index.html"><button class="home_button">Home</button></a>
+        <a href="about_page.html"><button class="about_button">About</button></a>
+        
+        </div>
+    </div>
+
+<div class="container">
+    <h2>Passanger Registration</h2>
+    <form id="patientRegistrationForm">
+        <!-- Patient Details -->
+        <div class="form-group">
+            <label for="patientName">Passanger Name:</label>
+            <input type="text" class="form-control" id="patientName" name="patientName">
+        </div>
+        <div class="form-group">
+            <label for="patientEmail">Email:</label>
+            <input type="email" class="form-control" id="patientEmail" name="patientEmail">
+        </div>
+        <div class="form-group">
+            <label for="patientGender">Gender:</label>
+            <select class="form-control" id="patientGender" name="patientGender">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="patientPassword">Password:</label>
+            <input type="password" class="form-control" id="patientPassword" name="patientPassword">
+        </div>
+        <div class="form-group">
+            <label for="patientAge">Age:</label>
+            <input type="number" class="form-control" id="patientAge" name="patientAge">
+        </div>
+        <button type="button" class="btn btn-primary" onclick="register()">Register</button>
+    </form>
+    
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- Firebase JavaScript SDK -->
+<script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-database.js"></script>
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyAXFwOJBz1-OlF79U0GY3_8_gFwfrT7PRs",
+  authDomain: "hello-ee8ee.firebaseapp.com",
+  databaseURL: "https://hello-ee8ee-default-rtdb.firebaseio.com",
+  projectId: "hello-ee8ee",
+  storageBucket: "hello-ee8ee.appspot.com",
+  messagingSenderId: "829133939864",
+  appId: "1:829133939864:web:06072859b6b3a59eb39ced",
+  measurementId: "G-BL3L4E5DYC"
+};
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
+const auth = firebase.auth();
+
+// Function to register patient
+function register() {
+    // Get form values
+    const patientName = document.getElementById("patientName").value;
+    const patientEmail = document.getElementById("patientEmail").value;
+    const patientGender = document.getElementById("patientGender").value;
+    const patientPassword = document.getElementById("patientPassword").value;
+    const patientAge = document.getElementById("patientAge").value;
+
+    // Check if any fields are empty
+    if (!patientName || !patientEmail || !patientGender || !patientPassword || !patientAge) {
+        alert("Please fill in all fields.");
+        return;
+    }
+
+    // Store patient data
+    const patientData = {
+        name: patientName,
+        email: patientEmail,
+        gender: patientGender,
+        age: patientAge,
+        role: "patient" // Assigning role
+    };
+    const patientRef = database.ref('users').push();
+    patientRef.set(patientData);
+
+    // Register Patient account with Firebase Authentication
+    auth.createUserWithEmailAndPassword(patientEmail, patientPassword)
+        .then((patientUserCredential) => {
+            console.log("Patient registered:", patientUserCredential.user.uid);
+            database.ref('users/' + patientUserCredential.user.uid).update({ role: "patient" });
+            alert("Patient registered successfully!");
+            window.location.href = "baggage.html"; // Redirect to login page
+        })
+        .catch((error) => {
+            console.error("Registration failed:", error.message);
+            alert("Registration failed: " + error.message);
+        });
+}
+</script>
+</body>
+</html>

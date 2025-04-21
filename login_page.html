@@ -1,66 +1,144 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Login</title>
-        <link rel="stylesheet" href="styles/header.css">
-        <link rel="stylesheet" href="styles/background.css">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="styles/background.css">
+    <link rel="stylesheet" href="styles/header.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Authentication</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    </head>
-    <body>
-        <div class="header">
-            <img class="logo" src="images/air_logo.png">
-            <p class="name">CLOUDTRIP</p>
-            <div class="buttons">
-            <a href="login_page.html"><button class="login_button">Login</button></a>
-            <a href="index.html"><button class="home_button">Home</button></a>
-            <a href="about_page.html"><button class="about_button">About</button></a>
+    <style>
+        /* Add your custom CSS styles here */
+       
+
+        #login-box {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .left h1 {
+            margin-bottom: 20px;
+        }
+
+        .left input {
+            margin-bottom: 15px;
+            border-radius: 4px;
+            outline: none;
+        }
+        #login-box {
             
-            </div>
+            background-color: rgba(143, 143, 143, 0.4);
+    /* Optional: if you want to see through the form elements slightly */
+    /* You might want to add some visual separation */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* subtle white border */
+    backdrop-filter: blur(5px); /* optional frosted glass effect */
+}
+        .right button {
+            margin-top: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .right a {
+            margin-top: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .container{
+            margin-top: 100px;
+            position: absolute;
+            left: 40%;
+            top: 30%;
+            background-color: rgba(143, 143, 143, 0.4);
+        }
+        .bg_login {
+        width: 100%;
+        position: relative;
+        top: -200px;
+        height: calc(100% + 200px);
+        overflow: hidden;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <img class="logo" src="images/air_logo.png">
+        <p class="name">CLOUDTRIP</p>
+        <div class="buttons">
+        <a href="login_page.html"><button class="login_button">Login</button></a>
+        <a href="index.html"><button class="home_button">Home</button></a>
+        <a href="about_page.html"><button class="about_button">About</button></a>
+        
         </div>
-        <div class="login_box">
-            <p class="login_text">LOGIN</p>
-            <input type="text" class="search_box" placeholder="Enter Username">
-            <input type="text" class="password_box" placeholder="Enter Password">
-            <div class="acc_create_txt">
-                <p>New? Create an account! or click on LOGIN</p>
-            </div>
-            <div class="button_group">
-                <a href="registration.html" class="create_acc">Create Account</a>
+    </div>
 
-                <a href="flights.html">
-                    <button class="login_acc">Login</button>
-                </a>
-
-            </div>
-            
-
-
+    <img class="bg_login" src="images/login_back.jpg" alt="">
+    <div id="login-box" class="container">
+        <div class="left">
+            <h1 id='status'><b>Credentials</b></h1>
+            <input type="text" id="email" name="email" placeholder="E-mail" class="form-control">
+            <input type="password" id="password" name="password" placeholder="Password" class="form-control">
         </div>
-        <img class="background_img_login" src="images/login_back.jpg" alt="">
-
-
-        <div class="bottom_info_login">
-            <p class="email"> Email: sairajnaik-cmpn@atharvacoe.ac.in    |   sairajnaik.t@gmail.com |</p>
-
-            <p class="contact_no"> Contact No: 8779759296 | 9985651818 |</p>
-
-            <p class="more_info">Ticket Booking | Ticket Reservation | Airline Reservation |</p>
-
-            <p class="trademark">@2025 All Rights Reserved SAIRAJ AIRWAYS</p>
-
-            <img class="bottom_air_logo" src="images/air_logo.png">
-
-            <div class="bottom_logo_login">
-                
-
-                <img class="fb_logo" src="images/fb_logo.png"  >
-                <img class="x_logo" src="images/x.jpeg">
-                <img class="insta_logo" src="images/insta.png">
-
-            </div>
+        <div class="right">
+            <button onclick="signIn()" id="signIn" class="btn btn-success btn-block">Sign In</button>
         </div>
-    </body>
+        <div class="right">
+            <a href="register_user.html" class="btn btn-info btn-block">Register</a>
+        </div>
+    </div>
+
+    <!-- Firebase JavaScript SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-database.js"></script>
+    <script>
+const firebaseConfig = {
+  apiKey: "AIzaSyAXFwOJBz1-OlF79U0GY3_8_gFwfrT7PRs",
+  authDomain: "hello-ee8ee.firebaseapp.com",
+  databaseURL: "https://hello-ee8ee-default-rtdb.firebaseio.com",
+  projectId: "hello-ee8ee",
+  storageBucket: "hello-ee8ee.appspot.com",
+  messagingSenderId: "829133939864",
+  appId: "1:829133939864:web:06072859b6b3a59eb39ced",
+  measurementId: "G-BL3L4E5DYC"
+};
+        firebase.initializeApp(firebaseConfig);
+
+        // Function to handle user sign-in
+        function signIn() {
+            var email = document.getElementById("email").value;
+            var password = document.getElementById("password").value;
+
+            firebase.auth().signInWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    var user = userCredential.user;
+                    // Retrieve user role from the database
+                    firebase.database().ref('users/' + user.uid + '/role').once('value', (snapshot) => {
+                        var role = snapshot.val();
+                        console.log("Retrieved role:", role); // Debugging log
+                        if (role === 'caregiver') {
+                            window.location.href = "caregiver.html";
+                        } else if (role === 'patient') {
+                            window.location.href = "mainscreen.html";
+                        } else {
+                            // If role is not defined, handle it accordingly
+                            alert("User role not defined.");
+                        }
+                    });
+                })
+                .catch((error) => {
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    alert("Incorrect email or password.");
+                });
+        }
+    </script>
+</body>
 </html>
